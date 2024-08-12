@@ -6,7 +6,7 @@
             "command": "C:/msys64/usr/bin/ssh.exe",
             "args": [
                 "-L 2222:localhost:22", 
-                "ilia@192.168.1.105"
+                "root@192.168.1.105"
             ]
         },
         {
@@ -16,7 +16,7 @@
             "args": [
                 "-N",
                 "-f",
-                "ilia@192.168.1.105",
+                "root@192.168.1.105",
                 "rm /home/ilia/proj/viraspi/HelloWorldProject.elf"
             ],
         },
@@ -27,7 +27,7 @@
             "command": "C:/msys64/usr/bin/scp.exe",
             "args": [
                 "${command:cmake.launchTargetDirectory}/HelloWorldProject.elf", 
-                "ilia@192.168.1.105:/home/ilia/proj/viraspi/"
+                "root@192.168.1.105:/home/ilia/proj/viraspi/"
             ],
         },
         //{
@@ -45,7 +45,7 @@
             "command": "C:/msys64/usr/bin/ssh.exe",
             "args":[
                 "-f", 
-                "ilia@192.168.1.105",
+                "root@192.168.1.105",
                 "chmod +x /home/ilia/proj/viraspi/HelloWorldProject.elf;",
                 "killall -q gdbserver;",
                 "gdbserver :5555 /home/ilia/proj/viraspi/HelloWorldProject.elf"
