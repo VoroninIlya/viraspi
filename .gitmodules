@@ -1,3 +1,12 @@
 [submodule "thirdparty/pigpio"]
 	path = thirdparty/pigpio
 	url = git@github.com:VoroninIlya/pigpio.git
+[submodule "modules/unity"]
+	path = modules/unity
+	url = git@github.com:VoroninIlya/Unity.git
+[submodule "modules/gtest"]
+	path = modules/gtest
+	url = git@github.com:VoroninIlya/googletest.git
+[submodule "thirdparty/mongoose"]
+	path = thirdparty/mongoose
+	url = git@github.com:VoroninIlya/mongoose.git
