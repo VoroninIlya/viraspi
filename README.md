@@ -33,6 +33,10 @@ pacman -S ninja
 ```
 pacman -S openssh
 ```
+- Install open ssh [mingw-w64-x86_64-libmongoose](https://packages.msys2.org/package/mingw-w64-x86_64-libmongoose?repo=mingw64)
+```
+pacman -S mingw-w64-x86_64-libmongoose
+```
 
 ### Installing and starting a gdb server on raspbrry pi
 ```
@@ -41,4 +45,6 @@ sudo apt upgrade
 sudo apt-get install gdbserver
 gdbserver --multi :5555
 ```
+
+
 

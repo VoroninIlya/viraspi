@@ -11,9 +11,11 @@
       "hidden": true,
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "toolchainFile": "${sourceDir}/cmake/gcc-aarch64-linux.cmake",
+      "toolchainFile": "${sourceDir}/cmake/gnu-aarch64-none-linux-gcc.cmake",
       "cacheVariables": {
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+        "UNITY_EXTENSION_FIXTURE": "ON",
+        "UNITY_EXTENSION_MEMORY": "ON"
       },
       "environment": {
         "AARCH64_LINUX_GNU_SYSROOT": "C:/msys64/mingw64/aarch64-none-linux-gnu/libc"
@@ -45,7 +47,7 @@
       "hidden": true,
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "toolchainFile": "${sourceDir}/cmake/gcc-arm-none-eabi.cmake",
+      "toolchainFile": "${sourceDir}/cmake/gnu-arm-none-eabi-gcc.cmake",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
       }
@@ -77,7 +79,9 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "UNITY_EXTENSION_FIXTURE": "ON",
+        "UNITY_EXTENSION_MEMORY": "ON"
       }
     },
     {
