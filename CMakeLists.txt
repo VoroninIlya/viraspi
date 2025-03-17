@@ -18,7 +18,6 @@ add_subdirectory(thirdparty)
 add_subdirectory(${PROJ_PATH}/modules/unity)
 add_subdirectory(${PROJ_PATH}/modules/gtest)
 add_subdirectory(${PROJ_PATH}/modules/vihcsr04)
-add_subdirectory(${PROJ_PATH}/modules/viwebserver)
 
 add_executable(${PROJECT_NAME})
 
@@ -33,5 +32,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
-    vihcsr04 vihcsr04cpp viwebserver mongoose
+    vihcsr04 vihcsr04cpp mongoose
     pigpio pigpiod_if pigpiod_if2 -lpthread -lrt)

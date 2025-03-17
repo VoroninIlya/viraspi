@@ -7,11 +7,11 @@
   },
   "configurePresets": [
     {
-      "name": "default-aarch64",
+      "name": "default-aarch64-host-win",
       "hidden": true,
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "toolchainFile": "${sourceDir}/cmake/gnu-aarch64-none-linux-gcc.cmake",
+      "toolchainFile": "${sourceDir}/cmake/host-win/gnu-aarch64-none-linux-gcc.cmake",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
         "UNITY_EXTENSION_FIXTURE": "ON",
@@ -22,59 +22,59 @@
       }
     },
     {
-      "name": "Debug-aarch64",
-      "inherits": "default-aarch64",
+      "name": "Debug-aarch64-host-win",
+      "inherits": "default-aarch64-host-win",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
-      "name": "RelWithDebInfo-aarch64",
-      "inherits": "default-aarch64",
+      "name": "RelWithDebInfo-aarch64-host-win",
+      "inherits": "default-aarch64-host-win",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
     },
     {
-      "name": "Release-aarch64",
-      "inherits": "default-aarch64",
+      "name": "Release-aarch64-host-win",
+      "inherits": "default-aarch64-host-win",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
-      "name": "default-arm",
+      "name": "default-arm-host-win",
       "hidden": true,
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "toolchainFile": "${sourceDir}/cmake/gnu-arm-none-eabi-gcc.cmake",
+      "toolchainFile": "${sourceDir}/cmake/host-win/gnu-arm-none-eabi-gcc.cmake",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
       }
     },
     {
-      "name": "Debug-arm",
-      "inherits": "default-arm",
+      "name": "Debug-arm-host-win",
+      "inherits": "default-arm-host-win",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
-      "name": "RelWithDebInfo-arm",
-      "inherits": "default-arm",
+      "name": "RelWithDebInfo-arm-host-win",
+      "inherits": "default-arm-host-win",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
     },
     {
-      "name": "Release-arm",
-      "inherits": "default-arm",
+      "name": "Release-arm-host-win",
+      "inherits": "default-arm-host-win",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
-      "name": "default-win",
+      "name": "default-win-host-win",
       "hidden": true,
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
@@ -85,17 +85,39 @@
       }
     },
     {
-      "name": "Win32-Debug",
-      "inherits": "default-win",
-      "toolchainFile": "${sourceDir}/cmake/i686-w64-mingw32-gcc.cmake",
+      "name": "Win32-Debug-host-win",
+      "inherits": "default-win-host-win",
+      "toolchainFile": "${sourceDir}/cmake/host-win/i686-w64-mingw32-gcc.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
-      "name": "Win64-Debug",
-      "inherits": "default-win",
-      "toolchainFile": "${sourceDir}/cmake/x86_64-w64-mingw32-gcc.cmake",
+      "name": "Win64-Debug-host-win",
+      "inherits": "default-win-host-win",
+      "toolchainFile": "${sourceDir}/cmake/host-win/x86_64-w64-mingw32-gcc.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "default-aarch64-host-lin",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "toolchainFile": "${sourceDir}/cmake/host-lin/gnu-aarch64-none-linux-gcc.cmake",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+        "UNITY_EXTENSION_FIXTURE": "ON",
+        "UNITY_EXTENSION_MEMORY": "ON"
+      },
+      "environment": {
+        "AARCH64_LINUX_GNU_SYSROOT": "/opt/gcc-arm-10.2/aarch64-none-linux-gnu/libc"
+      }
+    },
+    {
+      "name": "Debug-aarch64-host-lin",
+      "inherits": "default-aarch64-host-lin",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }

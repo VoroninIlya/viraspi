@@ -46,5 +46,28 @@ sudo apt-get install gdbserver
 gdbserver --multi :5555
 ```
 
+## Cross-compaling HOST: linux x64 TARGET: aarch64
 
+### Prepare compiler for ARM Cross-compaling
 
+- Install gcc-aarch64-linux-gnu
+
+Option 1:
+
+```
+sudo apt update
+sudo apt install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+```
+
+Option 2: (or my raspberry pi: gcc v10.2.1, GLIBC 2.31, GNU Binutils v2.35.2)
+Build gcc 10.2.0 manuall
+
+1. Download gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu.tar from https://developer.arm.com/downloads/-/gnu-a
+
+```
+tar -xf gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu.tar.xz
+sudo mv gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu /opt/gcc-arm-10.2
+nano ~/.bashrc
+export PATH=$PATH:/opt/gcc-arm-10.2/bin
+
+aarch64-none-linux-gnu-gcc --version
