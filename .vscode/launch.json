@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
       {
-        "name": "(gdb) Raspi",
+        "name": "(gdb) Raspi - host-win",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${command:cmake.launchTargetDirectory}/HelloWorldProject.elf",
+        "program": "${command:cmake.launchTargetDirectory}/viraspi.elf",
         "args": [],
         "stopAtEntry": true,
         "cwd": "${workspaceFolder}",
@@ -27,6 +27,31 @@
         ],
         "targetArchitecture": "arm",
         "preLaunchTask": "Add executing permissions and start gdbserver",
+        //"postDebugTask": "Terminate gdbserver",
+      },
+      {
+        "name": "(gdb) Raspi - host-lin",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${command:cmake.launchTargetDirectory}/viraspi.elf",
+        "args": [],
+        "stopAtEntry": true,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": true,
+        "MIMode": "gdb",
+        "miDebuggerServerAddress": "192.168.1.105:5555",
+        "miDebuggerPath": "gdb-multiarch",
+        "setupCommands": 
+        [
+          {
+            "description": "Enable pretty-printing for gdb",
+            "text": "-enable-pretty-printing",
+            "ignoreFailures": true
+          }
+        ],
+        "targetArchitecture": "arm",
+        "preLaunchTask": "Add executing permissions and start gdbserver host-lin",
         //"postDebugTask": "Terminate gdbserver",
       }
     ]

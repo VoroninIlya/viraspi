@@ -71,3 +71,10 @@ nano ~/.bashrc
 export PATH=$PATH:/opt/gcc-arm-10.2/bin
 
 aarch64-none-linux-gnu-gcc --version
+```
+
+- Install gdb-multiarch
+
+```
+sudo apt install gdb-multiarch
+```

@@ -121,6 +121,52 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
+    },
+    {
+      "name": "default-linux-host-lin",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "toolchainFile": "${sourceDir}/cmake/host-lin/gcc.cmake",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "UNITY_ROOT_PATH": "../unity",
+        "UNITY_EXTENSION_FIXTURE": "ON",
+        "UNITY_EXTENSION_MEMORY": "ON",
+        "GTEST_ROOT_PATH": "../gtest"
+      },
+      "environment": {
+          "UMASK": "002"
+      }
+    },
+    {
+      "name": "Debug-linux-host-lin",
+      "inherits": "default-linux-host-lin",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "RelWithDebInfo-linux-host-lin",
+      "inherits": "default-linux-host-lin",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "Release-linux-host-lin",
+      "inherits": "default-linux-host-lin",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "tst_viwebapi-debug-linux-host-lin",
+      "description": "",
+      "displayName": "",
+      "configurePreset": "Debug-linux-host-lin"
     }
   ]
 }
