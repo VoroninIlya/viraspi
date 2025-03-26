@@ -7,10 +7,8 @@ set(TOOLCHAIN_PREFIX                aarch64-none-linux-gnu-)
 
 message("$ENV{AARCH64_LINUX_GNU_SYSROOT}")
 
-SET(CMAKE_ASM_FLAGS "")
-SET(CMAKE_C_FLAGS "-march=armv8-a --sysroot=$ENV{AARCH64_LINUX_GNU_SYSROOT}")
-SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-SET(CMAKE_EXE_LINKER_FLAGS "--sysroot=$ENV{AARCH64_LINUX_GNU_SYSROOT}")
+# Set the sysroot to the cross-compilation environment
+set(CMAKE_SYSROOT $ENV{AARCH64_LINUX_GNU_SYSROOT})
 
 # Define compiler settings
 set(CMAKE_C_COMPILER                ${TOOLCHAIN_PREFIX}gcc)

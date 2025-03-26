@@ -76,6 +76,7 @@
         "fstream": "cpp",
         "iostream": "cpp",
         "mutex": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "csignal": "cpp"
     }
 }

@@ -13,3 +13,15 @@
 [submodule "modules/vihcsr04"]
 	path = modules/vihcsr04
 	url = git@github.com:VoroninIlya/vihcsr04.git
+[submodule "modules/vilogger"]
+	path = modules/vilogger
+	url = git@github.com:VoroninIlya/vilogger.git
+[submodule "modules/viasyncworker"]
+	path = modules/viasyncworker
+	url = git@github.com:VoroninIlya/viasyncworker.git
+[submodule "modules/viwebapi"]
+	path = modules/viwebapi
+	url = git@github.com:VoroninIlya/viwebapi.git
+[submodule "modules/viraspidb"]
+	path = modules/viraspidb
+	url = git@github.com:VoroninIlya/viraspidb.git

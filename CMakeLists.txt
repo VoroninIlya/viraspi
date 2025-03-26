@@ -10,8 +10,11 @@ set(PROJ_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 project(viraspi VERSION 1.0.0)
 #source files directory
 set(SOURCES "${PROJ_PATH}/src/main.cpp"
+    "${PROJ_PATH}/src/time/time.cpp"
     "${PROJ_PATH}/src/hcsr04callbacks/hcsr04callbacks.cpp"
     "${PROJ_PATH}/src/webapihandler/webapihandler.cpp"
+    "${PROJ_PATH}/src/webapihandler/connectionhandler.cpp"
+    "${PROJ_PATH}/src/loghandler/loghandler.cpp"
     "${PROJ_PATH}/thirdparty/pigpio/EXAMPLES/CPP/ROTARY_ENCODER/rotary_encoder.cpp"
 )
 
@@ -21,6 +24,7 @@ add_subdirectory(${PROJ_PATH}/modules/gtest)
 add_subdirectory(${PROJ_PATH}/modules/vihcsr04)
 add_subdirectory(${PROJ_PATH}/modules/viwebapi)
 add_subdirectory(${PROJ_PATH}/modules/viasyncworker)
+add_subdirectory(${PROJ_PATH}/modules/vilogger)
 
 add_executable(${PROJECT_NAME})
 
@@ -36,6 +40,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     vihcsr04 vihcsr04cpp mongoose viwebapi viasyncworker
+    vilogger
     pigpio pigpiod_if pigpiod_if2 -lpthread -lrt)
 
 #

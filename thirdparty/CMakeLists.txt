@@ -15,7 +15,11 @@ add_library(pigpiod_if2
     ${CMAKE_CURRENT_SOURCE_DIR}/pigpio/pigpiod_if2.c 
     ${CMAKE_CURRENT_SOURCE_DIR}/pigpio/command.c)
 
-    add_compile_definitions("-DMG_ARCH=MG_ARCH_UNIX")
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    add_compile_definitions("MG_ARCH=MG_ARCH_UNIX")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+    add_compile_definitions("MG_ARCH=MMG_ARCH_WIN32")
+endif()
 
 add_library(mongoose
     ${CMAKE_CURRENT_SOURCE_DIR}/mongoose/mongoose.c
