@@ -10,7 +10,7 @@
       "hidden": true,
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "toolchainFile": "${sourceDir}/cmake/host-win/gnu-aarch64-none-linux-gcc.cmake",
+      "toolchainFile": "${sourceDir}/cmake_toolchains/host-win/gnu-aarch64-none-linux-gcc.cmake",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
         "UNITY_EXTENSION_FIXTURE": "ON",
@@ -23,7 +23,7 @@
       "hidden": true,
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "toolchainFile": "${sourceDir}/cmake/host-win/gnu-arm-none-eabi-gcc.cmake",
+      "toolchainFile": "${sourceDir}/cmake_toolchains/host-win/gnu-arm-none-eabi-gcc.cmake",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
       }},
@@ -36,26 +36,11 @@
         "UNITY_EXTENSION_FIXTURE": "ON",
         "UNITY_EXTENSION_MEMORY": "ON"
       }},
-    { "name": "default-linux-host-win",
-      "hidden": true,
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/${presetName}",
-      "toolchainFile": "${sourceDir}/cmake/host-win/gnu-x64-linux-gcc.cmake",
-      "cacheVariables": {
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-        "UNITY_ROOT_PATH": "../unity",
-        "UNITY_EXTENSION_FIXTURE": "ON",
-        "UNITY_EXTENSION_MEMORY": "ON",
-        "GTEST_ROOT_PATH": "../gtest"
-      },
-      "environment": {
-          "UMASK": "002"
-      }},
     { "name": "default-aarch64-host-lin",
       "hidden": true,
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "toolchainFile": "${sourceDir}/cmake/host-lin/gnu-aarch64-none-linux-gcc.cmake",
+      "toolchainFile": "${sourceDir}/cmake_toolchains/host-lin/gnu-aarch64-none-linux-gcc.cmake",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
         "UNITY_EXTENSION_FIXTURE": "ON",
@@ -68,7 +53,7 @@
       "hidden": true,
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "toolchainFile": "${sourceDir}/cmake/host-lin/gcc.cmake",
+      "toolchainFile": "${sourceDir}/cmake_toolchains/host-lin/gnu-x86_64-linux-gcc.cmake",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "UNITY_ROOT_PATH": "../unity",
@@ -111,13 +96,13 @@
       }},
     { "name": "Debug-win32-host-win",
       "inherits": "default-win-host-win",
-      "toolchainFile": "${sourceDir}/cmake/host-win/i686-w64-mingw32-gcc.cmake",
+      "toolchainFile": "${sourceDir}/cmake_toolchains/host-win/i686-w64-mingw32-gcc.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }},
     { "name": "Debug-win64-host-win",
       "inherits": "default-win-host-win",
-      "toolchainFile": "${sourceDir}/cmake/host-win/x86_64-w64-mingw32-gcc.cmake",
+      "toolchainFile": "${sourceDir}/cmake_toolchains/host-win/x86_64-w64-mingw32-gcc.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }},
@@ -140,11 +125,6 @@
       "inherits": "default-linux-host-lin",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
-      }},
-    { "name": "Debug-linux-host-win",
-      "inherits": "default-linux-host-win",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
       }}
   ],
   "testPresets": [
