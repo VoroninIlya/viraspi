@@ -6,14 +6,6 @@
 #include <iostream>
 
 Sessions ConnectionHandler::m_sessions;
-std::deque<std::string> ConnectionHandler::m_incomingHttpMessages;
-std::deque<std::string> ConnectionHandler::m_incomingWsMessages;
-std::deque<std::string> ConnectionHandler::m_outgoingHttpMessages;
-std::deque<std::string> ConnectionHandler::m_outgoingWsMessages;
-std::mutex ConnectionHandler::m_incomingHttpMutex;
-std::mutex ConnectionHandler::m_incomingWsMutex;
-std::mutex ConnectionHandler::m_outgoingHttpMutex;
-std::mutex ConnectionHandler::m_outgoingWsMutex;
 
 ConnectionHandler::ConnectionHandler() {
 
@@ -33,108 +25,6 @@ void ConnectionHandler::sessionsGrabageCollect() {
     if(it->second.connection == NULL)
       m_sessions.erase((it--)->first);
   }
-}
-
-void ConnectionHandler::pushOutgoingMessageToWs(const std::string& s) {
-  std::lock_guard lock{m_outgoingWsMutex};
-  m_outgoingWsMessages.push_back(s);
-}
-
-void ConnectionHandler::pushOutgoingMessageToHttp(const std::string& s) {
-  std::lock_guard lock{m_outgoingHttpMutex};
-  m_outgoingHttpMessages.push_back(s);
-}
-
-void ConnectionHandler::pushIncomingMessageToWs(const std::string& s) {
-  std::lock_guard lock{m_incomingWsMutex};
-  m_incomingWsMessages.push_back(s);
-}
-
-void ConnectionHandler::pushIncomingMessageToHttp(const std::string& s) {
-  std::lock_guard lock{m_incomingHttpMutex};
-  m_incomingHttpMessages.push_back(s);
-}
-
-bool ConnectionHandler::hasIncomingWsMessages() {
-  std::lock_guard lock{m_incomingWsMutex};
-  return !m_incomingWsMessages.empty();
-}
-
-bool ConnectionHandler::hasIncomingHttpMessages() {
-  std::lock_guard lock{m_incomingHttpMutex};
-  return !m_incomingHttpMessages.empty();
-}
-
-bool ConnectionHandler::hasOutgoingWsMessages() {
-  std::lock_guard lock{m_outgoingWsMutex};
-  return !m_outgoingWsMessages.empty();
-}
-
-bool ConnectionHandler::hasOutgoingHttpMessages() {
-  std::lock_guard lock{m_outgoingHttpMutex};
-  return !m_outgoingHttpMessages.empty();
-}
-
-std::string ConnectionHandler::popOutgoingMessageFromWs() {
-  if(!hasOutgoingWsMessages())
-    return "";
-
-  std::lock_guard lock{m_outgoingWsMutex};
-  std::string s = m_outgoingWsMessages.back();
-  m_outgoingWsMessages.pop_back();
-  return s;
-}
-
-std::string ConnectionHandler::popOutgoingMessageFromHttp() {
-  if(!hasOutgoingHttpMessages())
-    return "";
-
-  std::lock_guard lock{m_outgoingHttpMutex};
-  std::string s = m_outgoingHttpMessages.back();
-  m_outgoingHttpMessages.pop_back();
-  return s;
-}
-
-std::string ConnectionHandler::popIncomingMessageFromWs() {
-  if(!hasIncomingWsMessages())
-    return "";
-
-  std::lock_guard lock{m_incomingWsMutex};
-  std::string s = m_incomingWsMessages.back();
-  m_incomingWsMessages.pop_back();
-  return s;
-}
-
-std::string ConnectionHandler::popIncomingMessageFromHttp() {
-  if(!hasIncomingHttpMessages())
-    return "";
-
-  std::lock_guard lock{m_incomingHttpMutex};
-  std::string s = m_incomingHttpMessages.back();
-  m_incomingHttpMessages.pop_back();
-  return s;
-}
-
-void ConnectionHandler::subscribeOnWsMessages(std::unique_ptr<Subscriber> sbc) {
-  m_wsMessagesSubscribers.push_back(std::move(sbc));
-}
-
-void ConnectionHandler::subscribeOnHttpMessages(std::unique_ptr<Subscriber> sbc) {
-  m_httpMessagesSubscribers.push_back(std::move(sbc));
-}
-
-void ConnectionHandler::unSubscribeOnWsMessages(std::unique_ptr<Subscriber> sbc) {
-  auto el = std::find(m_wsMessagesSubscribers.begin(),
-    m_wsMessagesSubscribers.end(), sbc);
-  if(m_wsMessagesSubscribers.end() != el)
-    m_wsMessagesSubscribers.erase(el);
-}
-
-void ConnectionHandler::unSubscribeOnHttpMessages(std::unique_ptr<Subscriber> sbc) {
-  auto el = std::find(m_httpMessagesSubscribers.begin(),
-    m_httpMessagesSubscribers.end(), sbc);
-  if(m_httpMessagesSubscribers.end() != el)
-    m_httpMessagesSubscribers.erase(el);  
 }
 
 void ConnectionHandler::taskHandler() {
@@ -169,8 +59,8 @@ void ConnectionHandler::HttpHandler(apiCtx& ctx) {
 void ConnectionHandler::eventsHandler(struct mg_connection *c, int ev, void *evData) {
   m_sessions[c->id] = apiCtx{c, ev, evData};
 
-  ConnectionHandler::HttpHandler(m_sessions[c->id]);
-  ConnectionHandler::webSocketHandler(m_sessions[c->id]);
+  getInstance().HttpHandler(m_sessions[c->id]);
+  getInstance().webSocketHandler(m_sessions[c->id]);
 }
 
 void ConnectionHandler::handleStates(apiCtx& ctx,
@@ -327,7 +217,7 @@ void ConnectionHandler::handleStates(apiCtx& ctx,
 } 
 
 void ConnectionHandler::evOpen (apiCtx& ctx) {
-  sessionsGrabageCollect();
+  getInstance().sessionsGrabageCollect();
   m_sessions[ctx.connection->id] = ctx;
 };
 
@@ -335,7 +225,7 @@ void ConnectionHandler::evClose (apiCtx& ctx) {
   if(m_sessions.contains(ctx.connection->id)){
     m_sessions.erase(ctx.connection->id);
   }
-  sessionsGrabageCollect();
+  getInstance().sessionsGrabageCollect();
 };
 
 void ConnectionHandler::evHttpMsg (apiCtx& ctx) {
@@ -358,7 +248,7 @@ void ConnectionHandler::evHttpMsg (apiCtx& ctx) {
 }
 
 void ConnectionHandler::evPoll(apiCtx& ctx) {
-  std::string msg = popOutgoingMessageFromWs();
+  std::string msg = getInstance().wsQueue->popOutgoing();
   if(!msg.empty()) {
     mg_ws_send(ctx.connection, msg.c_str(), msg.length(), WEBSOCKET_OP_TEXT);
   }

@@ -1,37 +1,31 @@
 #pragma once
 
 #include "webapihandler.hpp"
-#include "subscriber.hpp"
+#include "viduplexqueue.hpp"
 #include "mongoose.h"
+#include <memory>
 #include <string>
 #include <deque>
 #include <mutex>
 #include <map>
 
 using Sessions = std::map<uint64_t, apiCtx>;
+using Queue = viasyncworker::ViDuplexQueue<std::string, 
+std::function<void(const std::string&)>>;
 
 class ConnectionHandler {
 
   static Sessions m_sessions;
-  static std::deque<std::string> m_incomingHttpMessages;
-  static std::deque<std::string> m_incomingWsMessages;
-  static std::deque<std::string> m_outgoingHttpMessages;
-  static std::deque<std::string> m_outgoingWsMessages;
-  static std::mutex m_incomingHttpMutex;
-  static std::mutex m_incomingWsMutex;
-  static std::mutex m_outgoingHttpMutex;
-  static std::mutex m_outgoingWsMutex;
+
+  ConnectionHandler();
 
   void taskHandler();
   void taskCallback();
+  void webSocketHandler(apiCtx& ctx);
+  void HttpHandler(apiCtx& ctx);
+  void sessionsGrabageCollect();
 
   static void eventsHandler(struct mg_connection *c, int ev, void *evData);
-  static void webSocketHandler(apiCtx& ctx);
-  static void HttpHandler(apiCtx& ctx);
-
-  static void sessionsGrabageCollect();
-
-  ConnectionHandler();
 
   static void evOpen(apiCtx& ctx);
   static void evClose(apiCtx& ctx);
@@ -61,37 +55,33 @@ class ConnectionHandler {
     std::function<void(apiCtx& ctx)> EvWsMsg = nullptr
   );
 
-  static void pushIncomingMessageToWs(const std::string& s);
-  static void pushIncomingMessageToHttp(const std::string& s);
-  static std::string popOutgoingMessageFromWs();
-  static std::string popOutgoingMessageFromHttp();
-  static bool hasOutgoingWsMessages();
-  static bool hasOutgoingHttpMessages();
-
-  std::vector<std::unique_ptr<Subscriber>> m_httpMessagesSubscribers;
-  std::vector<std::unique_ptr<Subscriber>> m_wsMessagesSubscribers;
-
 public:
 
-  ConnectionHandler(const ConnectionHandler& ) = delete;
+  std::unique_ptr<Queue> wsQueue;
+  std::unique_ptr<Queue> httpQueue;
+
+  ConnectionHandler(const ConnectionHandler&) = delete;
   
-  static ConnectionHandler& getInstance() {
+  static ConnectionHandler& getInstance(std::unique_ptr<Queue> wsQueue = nullptr, std::unique_ptr<Queue>  httpQueue = nullptr) {
       static ConnectionHandler obj;
+
+      if (obj.wsQueue == nullptr) {
+        if (nullptr != wsQueue) {
+          obj.wsQueue = std::move(wsQueue);
+        } else {
+          obj.wsQueue = std::make_unique<Queue>();
+        }
+      }
+
+      if (obj.httpQueue == nullptr) {
+        if (nullptr != httpQueue) {
+          obj.httpQueue = std::move(httpQueue);
+        } else {
+          obj.httpQueue = std::make_unique<Queue>();
+        }
+      }
+
       return obj;
   }
 
-  void pushOutgoingMessageToWs(const std::string& s);
-  void pushOutgoingMessageToHttp(const std::string& s);
-  bool hasIncomingWsMessages();
-  bool hasIncomingHttpMessages();
-  std::string popIncomingMessageFromWs();
-  std::string popIncomingMessageFromHttp();
-
-  void subscribeOnWsMessages(std::unique_ptr<Subscriber>);
-  void subscribeOnHttpMessages(std::unique_ptr<Subscriber>);
-  void unSubscribeOnWsMessages(std::unique_ptr<Subscriber>);
-  void unSubscribeOnHttpMessages(std::unique_ptr<Subscriber>);
-
-  // 
-  
 };

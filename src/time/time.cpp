@@ -23,3 +23,4 @@ std::string getHighResolutionTime() {
   ss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "." << now_us.count();
   return ss.str();
 }
+

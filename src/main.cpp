@@ -133,7 +133,7 @@ int main(void) {
         start = current;
         std::stringstream ss; 
         ss << std::string("Thread1::Test msg: ") << current.time_since_epoch().count() << std::endl;
-        ConnectionHandler::getInstance().pushOutgoingMessageToWs(ss.str());
+        ConnectionHandler::getInstance().wsQueue->pushOutgoing(ss.str());
       }
     }
   };
@@ -148,7 +148,7 @@ int main(void) {
       {
         start = current;
         std::stringstream ss; ss << "Thread2::Test msg: " << current.time_since_epoch().count() << std::endl;
-        ConnectionHandler::getInstance().pushOutgoingMessageToWs(ss.str());
+        ConnectionHandler::getInstance().wsQueue->pushOutgoing(ss.str());
       }
     }
   };
